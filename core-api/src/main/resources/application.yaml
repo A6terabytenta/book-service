@@ -1,0 +1,23 @@
+server:
+  servlet:
+    context-path: /book-service
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/book-service
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    com.ntatvr: DEBUG
+
+request:
+  rest:
+    default-page-size: 5

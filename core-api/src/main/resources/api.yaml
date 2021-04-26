@@ -1,0 +1,445 @@
+openapi: 3.0.0
+info:
+  title: Book Service
+  description: API specification for Book Service
+  version: v3
+servers:
+  - url: 'http://localhost:8080/book-service/'
+    description: Local Server API Information
+paths:
+  /books/{id}:
+    get:
+      tags:
+        - Book
+      summary: Get Book by id
+      operationId: getBookById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Get a Book by id successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Book
+      operationId: updateBook
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookEntityRequest'
+        required: true
+      responses:
+        '200':
+          description: Update a Book successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Book
+      operationId: deleteBookById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Delete a Book successfully
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /books:
+    post:
+      tags:
+        - Book
+      operationId: insertBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookEntityRequest'
+        required: true
+      responses:
+        '201':
+          description: Created a Book successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /books/filter:
+    get:
+      tags:
+        - Book Filter
+      summary: filter books
+      operationId: filterBooks
+      parameters:
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/sort'
+        - in: query
+          name: author
+          description: The name of an author
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/schemas/BookFilterPagingResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /authors/{id}:
+    get:
+      tags:
+        - Author
+      summary: Get Author by id
+      operationId: getAuthorById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Get an Author by id successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Author
+      operationId: updateAuthor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorEntityRequest'
+        required: true
+      responses:
+        '200':
+          description: Update a Author successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Author
+      operationId: deleteAuthorById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Delete an Author successfully
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /authors:
+    post:
+      tags:
+        - Author
+      operationId: insertAuthor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorEntityRequest'
+        required: true
+      responses:
+        '201':
+          description: Created an Author successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorEntityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    pageNumber:
+      in: query
+      name: page
+      schema:
+        type: integer
+        default: 0
+    pageSize:
+      in: query
+      name: size
+      schema:
+        type: integer
+        default: 25
+    sort:
+      in: query
+      name: sort
+      schema:
+        type: string
+        enum:
+          - 'lastModified,asc'
+          - 'lastModified,desc'
+          - 'created,asc'
+          - 'created,desc'
+        default: 'lastModified,desc'
+  schemas:
+    PaginationResponse:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          default: 0
+        pageSize:
+          type: integer
+          default: 0
+        totalPages:
+          type: integer
+          default: 0
+        totalElements:
+          type: integer
+          format: int64
+          default: 0
+      required:
+        - totalPages
+        - totalElements
+      title: PaginationResponse
+    BookFilterPagingResponse:
+      allOf:
+        - $ref: '#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/BookEntityResponse'
+    BaseEntityRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+    BaseEntityResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityRequest'
+        - type: object
+          properties:
+            version:
+              type: integer
+              format: int64
+            created:
+              type: string
+              format: date-time
+            lastModified:
+              type: string
+              format: date-time
+            createdBy:
+              type: string
+            lastModifiedBy:
+              type: string
+            isDeleted:
+              type: boolean
+            entityType:
+              type: string
+    BookEntityRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityRequest'
+        - type: object
+          properties:
+            title:
+              type: string
+            subTitle:
+              type: string
+            description:
+              type: string
+            thumbnailImage:
+              type: string
+            backgroundImage:
+              type: string
+            authors:
+              type: array
+              items:
+                $ref: '#/components/schemas/AssignedAuthorRequest'
+    AssignedAuthorRequest:
+      type: object
+      properties:
+        id:
+          type: string
+    AssignedAuthorResponse:
+      allOf:
+        - $ref: '#/components/schemas/AssignedAuthorRequest'
+        - type: object
+          properties:
+            fullName:
+              type: string
+    BookEntityResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityResponse'
+        - type: object
+          properties:
+            title:
+              type: string
+            subTitle:
+              type: string
+            description:
+              type: string
+            thumbnailImage:
+              type: string
+            backgroundImage:
+              type: string
+            authors:
+              type: array
+              items:
+                $ref: '#/components/schemas/AssignedAuthorResponse'
+    AuthorEntityRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityRequest'
+        - type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            address:
+              type: string
+            email:
+              type: string
+    AuthorEntityResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityResponse'
+        - type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            fullName:
+              type: string
+            address:
+              type: string
+            email:
+              type: string
+    NotFoundError:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        userMessage:
+          type: string
+    InternalServerError:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        userMessage:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        property:
+          type: string
+        invalidValue:
+          type: string
+        message:
+          type: string
+    BadRequestError:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        userMessage:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorResponse'
+  responses:
+    BadRequestError:
+      description: BadRequest
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestError'
+    NotFoundError:
+      description: NotFound
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+    InternalServerError:
+      description: InternalServerError
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
