@@ -9,7 +9,7 @@
     </parent>
     <artifactId>core-api</artifactId>
     <name>core-api</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Back-end Application using Spring Boot</description>
 
     <dependencies>
         <dependency>
