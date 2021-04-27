@@ -3,7 +3,7 @@
 ## Prerequisite Condition
 - Docker is installed
 
-## Technologies applied for the project
+## Technologies are using in the project
 1. Spring Boot version ``2.2.6``
 2. MongoDB version ``4.2``
 3. Maven to manage dependency and build project
