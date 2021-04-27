@@ -38,8 +38,7 @@ public class ApplicationExceptionHandler {
     final Map<String, String> errors = new HashMap<>();
     errors.put(ERROR_CODE, HttpStatus.BAD_REQUEST.toString());
 
-    final ServiceErrorResponse errorResponse =
-        new ServiceErrorResponse(
+    final ServiceErrorResponse errorResponse = new ServiceErrorResponse(
             new Date(),
             ErrorEnum.BAD_REQUEST_EXCEPTION.getCode(),
             ErrorEnum.BAD_REQUEST_EXCEPTION.getMessage(),

@@ -20,4 +20,12 @@ public class BookServiceRunTimeException extends RuntimeException {
     this.errorCode = errorEnum.getCode();
     this.userMessage = errorEnum.getUserMessage();
   }
+
+  protected BookServiceRunTimeException(final String errorCode,
+                                        final String internalMessage,
+                                        final String userMessage) {
+    super(internalMessage);
+    this.errorCode = errorCode;
+    this.userMessage = userMessage;
+  }
 }

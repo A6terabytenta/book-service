@@ -1,7 +1,9 @@
 package com.ntatvr.domain.entities.book;
 
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -14,9 +16,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ntatvr.domain.entities.BaseEntity;
 
 @Document(collection = BookEntity.COLLECTION_NAME)
@@ -56,5 +61,13 @@ public class BookEntity extends BaseEntity {
   @Override
   public String getEntityType() {
     return ENTITY_TYPE;
+  }
+
+  public List<String> collectAuthorIds() {
+    return CollectionUtils.emptyIfNull(authors)
+        .stream()
+        .map(AssignedAuthor::getId)
+        .distinct()
+        .collect(Collectors.toList());
   }
 }

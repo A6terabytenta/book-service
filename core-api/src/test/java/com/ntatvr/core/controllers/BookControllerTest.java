@@ -102,6 +102,20 @@ public class BookControllerTest extends IntegrationTest {
   }
 
   @Test
+  public void create_a_Book_with_incorrect_author_should_return_bad_request() throws Exception {
+    final AuthorEntity fakeAuthor = TestDataProvider.buildNewAuthorEntity();
+    fakeAuthor.setId(NOT_EXIST_ID);
+    final BookEntity bookEntity = TestDataProvider.buildBookEntity(fakeAuthor);
+    bookEntity.setTitle("Clean Code II");
+    this.mockMvc.perform(post(BOOKS_ENDPOINT)
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(bookEntity)))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.userMessage").value("Authors [6084331d392464040b27ade5] not found"));
+  }
+
+  @Test
   public void create_a_Book_with_correct_data_should_successful() throws Exception {
     final BookEntity bookEntity = TestDataProvider.buildBookEntity(authorEntity);
     bookEntity.setTitle("Clean Code II");

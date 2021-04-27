@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import com.ntatvr.core.aggregation.QueryBuilder;
 import com.ntatvr.core.controllers.request.SearchRequest;
 import com.ntatvr.core.controllers.validate.BookFilterValidator;
-import com.ntatvr.domain.entities.BaseEntity;
 import com.ntatvr.domain.entities.book.BookEntity;
 
 @Service(BookFilterService.SERVICE_NAME)
@@ -46,10 +45,6 @@ public class BookFilterService extends BaseFilterService {
   }
 
   private Optional<SortOperation> buildSortOperation(final SearchRequest searchRequest) {
-
-    if (searchRequest.getPageable().getSort().isEmpty()) {
-      return Optional.of(Aggregation.sort(Sort.Direction.DESC, BaseEntity.LAST_MODIFIED_FIELD));
-    }
 
     return searchRequest.getPageable().getSort()
         .map(order -> {

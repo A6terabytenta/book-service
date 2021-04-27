@@ -1,5 +1,7 @@
 package com.ntatvr.core.repositories;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +13,8 @@ import com.ntatvr.domain.entities.BaseEntity;
 
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity, K extends String> extends MongoRepository<T, K> {
+
+  List<T> findByIdInAndIsDeletedFalse(Collection<K> ids);
 
   Optional<T> findByIdAndIsDeletedFalse(K id);
 

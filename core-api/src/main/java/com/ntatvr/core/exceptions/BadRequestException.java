@@ -43,10 +43,11 @@ public class BadRequestException extends RuntimeException {
   }
 
   public void addError(final String propertyPath, final String message, final Object... messageArgs) {
-    final ValidationErrorResponse validationErrorResponse = new ValidationErrorResponse();
-    validationErrorResponse.setProperty(propertyPath);
-    validationErrorResponse.setMessage(String.format(message, messageArgs));
-    this.errors.add(validationErrorResponse);
+    this.errors.add(ValidationErrorResponse.builder()
+        .property(propertyPath)
+        .message(String.format(message, messageArgs))
+        .build()
+    );
   }
 
   /**

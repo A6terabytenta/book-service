@@ -1,8 +1,10 @@
 # Back-end Application using Spring Boot - Book Management
 
+
 ## Prerequisite Condition
 - Creating a MongoDB replica set using Docker
 https://www.sohamkamani.com/blog/2016/06/30/docker-mongo-replica-set/
+
 ## Diagram
 ![](external-image/book-service-diagram.png)
 
@@ -23,5 +25,7 @@ mvn clean install
 
 - Step 3. Run the BookServiceApplication.
 
+## Test Coverage - 80%
 
+## Code Quality - PMD
 

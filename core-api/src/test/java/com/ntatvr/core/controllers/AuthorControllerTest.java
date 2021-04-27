@@ -1,12 +1,16 @@
 package com.ntatvr.core.controllers;
 
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +22,7 @@ import com.ntatvr.core.IntegrationTest;
 import com.ntatvr.core.TestDataProvider;
 import com.ntatvr.core.exceptions.ErrorEnum;
 import com.ntatvr.core.repositories.AuthorRepository;
+import com.ntatvr.core.repositories.BookRepository;
 import com.ntatvr.domain.entities.author.AuthorEntity;
 import com.ntatvr.domain.entities.book.BookEntity;
 
@@ -29,15 +34,22 @@ public class AuthorControllerTest extends IntegrationTest {
   @Autowired
   private AuthorRepository authorRepository;
 
+  @Autowired
+  private BookRepository bookRepository;
+
   private AuthorEntity authorEntity;
+  private BookEntity bookEntity;
+
 
   @Before
   public void before() {
     authorEntity = authorRepository.save(TestDataProvider.buildAuthorEntity());
+    bookEntity = bookRepository.save(TestDataProvider.buildBookEntity(authorEntity));
   }
 
   @After
   public void after() {
+    mongoTemplate.dropCollection(BookEntity.COLLECTION_NAME);
     mongoTemplate.dropCollection(AuthorEntity.COLLECTION_NAME);
   }
 
@@ -124,6 +136,9 @@ public class AuthorControllerTest extends IntegrationTest {
 
   @Test
   public void update_a_Author_with_correct_data_should_successful() throws Exception {
+
+    assertThat(bookEntity.getAuthors().get(0).getFullName(), is(authorEntity.getFullName()));
+
     final AuthorEntity newAuthorEntity = TestDataProvider.buildNewAuthorEntity();
     this.mockMvc.perform(put(AUTHORS_ENDPOINT + "/" + authorEntity.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -137,6 +152,9 @@ public class AuthorControllerTest extends IntegrationTest {
         .andExpect(jsonPath("$.address").value(newAuthorEntity.getAddress()))
         .andExpect(jsonPath("$.email").value(newAuthorEntity.getEmail()))
         .andExpect(jsonPath("$.isDeleted").value(false));
+
+    bookEntity = bookRepository.findById(bookEntity.getId()).get();
+    assertThat(bookEntity.getAuthors().get(0).getFullName(), is(newAuthorEntity.getFullName()));
   }
 
   @Test
@@ -156,5 +174,7 @@ public class AuthorControllerTest extends IntegrationTest {
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
+
+    assertThat(bookRepository.findById(bookEntity.getId()), is(Optional.empty()));
   }
 }

@@ -38,9 +38,12 @@ public class BaseEntity {
   @CreatedBy
   private String createdBy;
 
-  @LastModifiedDate
   @JsonFormat(pattern = DATE_TIME_PATTERN)
   private Date lastModified;
+
+  @LastModifiedDate
+  @JsonFormat(pattern= DATE_TIME_PATTERN)
+  public Date documentLastModified;
 
   @LastModifiedBy
   private String lastModifiedBy;

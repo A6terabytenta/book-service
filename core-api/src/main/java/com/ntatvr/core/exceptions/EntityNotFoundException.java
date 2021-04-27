@@ -10,4 +10,8 @@ public class EntityNotFoundException extends BookServiceRunTimeException {
   public EntityNotFoundException() {
     super(ErrorEnum.ENTITY_NOT_FOUND_EXCEPTION);
   }
+
+  public EntityNotFoundException(final String message) {
+    super(ErrorEnum.ENTITY_NOT_FOUND_EXCEPTION.getCode(), message, message);
+  }
 }
