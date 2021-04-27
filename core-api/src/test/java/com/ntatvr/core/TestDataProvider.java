@@ -21,7 +21,7 @@ public class TestDataProvider {
   public static AuthorEntity buildNewAuthorEntity() {
     final AuthorEntity authorEntity = AuthorEntity.builder()
         .firstName("Tuan")
-        .lastName("Nguyen Van")
+        .lastName("Hoang Van")
         .email("abc-it@gmail.com")
         .address("Ha Noi city")
         .build();

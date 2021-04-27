@@ -86,7 +86,7 @@ public class BookFilterControllerTest extends IntegrationTest {
   }
 
   @Test
-  public void filter_book_with_filter_should_return_data() throws Exception {
+  public void filter_book_with_filter_should_return_data_c1() throws Exception {
     this.mockMvc.perform(MockMvcRequestBuilders.get(BOOK_FILTER_ENDPOINT)
         .contentType(MediaType.APPLICATION_JSON)
         .param(BookFilterValidator.AUTHOR_PARAM, authorEntity2.getFullName())
@@ -95,6 +95,19 @@ public class BookFilterControllerTest extends IntegrationTest {
         .andExpect(jsonPath("$.content").value(Matchers.hasSize(1)))
         .andExpect(jsonPath("$.content[0].id").value(bookEntity2.getId()))
         .andExpect(jsonPath("$.content[0].authors[0].id").value(authorEntity2.getId()))
+        .andExpect(jsonPath("$.totalElements").value(1));
+  }
+
+  @Test
+  public void filter_book_with_filter_should_return_data_c2() throws Exception {
+    this.mockMvc.perform(MockMvcRequestBuilders.get(BOOK_FILTER_ENDPOINT)
+        .contentType(MediaType.APPLICATION_JSON)
+        .param(BookFilterValidator.AUTHOR_PARAM, authorEntity1.getFullName().substring(5, 10))
+        .param(BookFilterValidator.SIZE_PARAM, String.valueOf(10)))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(jsonPath("$.content").value(Matchers.hasSize(1)))
+        .andExpect(jsonPath("$.content[0].id").value(bookEntity1.getId()))
+        .andExpect(jsonPath("$.content[0].authors[0].id").value(authorEntity1.getId()))
         .andExpect(jsonPath("$.totalElements").value(1));
   }
 

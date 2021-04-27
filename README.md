@@ -77,6 +77,7 @@ mvn clean install
 │   │   │   │               └───services
 │   │   │   │                   ├───filter
 │   │   │   │                   └───impl
+│   │   │   │               └───BookServiceApplication.java
 │   │   │   └───resources
 │   │   └───test
 │   │       ├───java
