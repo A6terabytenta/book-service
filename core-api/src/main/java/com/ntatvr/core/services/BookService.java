@@ -7,6 +7,11 @@ import com.ntatvr.domain.entities.book.BookEntity;
 
 public interface BookService {
 
+  /**
+   * Used to validate business logic and reference data if needed. And, we can customise the error messages as well.
+   *
+   * @param entity {@link AuthorEntity}
+   */
   void validate(final BookEntity entity);
 
   BookEntity findById(final String id);

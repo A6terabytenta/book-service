@@ -9,11 +9,14 @@
 3. Maven to manage dependency and build project
 4. Code quality assurance with PMD
 5. Libraries: Lombok ``1.18.12``, mapstruct ``1.4.1``, swagger ``1.6.0``
+6. Validate: javax.validation ``2.0.1``
 
 ## Business Rules
 1. Implement CRUD API.
-2. Allows to filter book by author name.
+2. Allows to filter book by author name (full name).
 3. Delete (Soft delete) all books after deleting author.
+4. Customise error messages and properties to allow front-end to access an error message should be shown
+ corresponding to the field name.
 
 ## Diagram
 ![](external-image/book-service-diagram.png)

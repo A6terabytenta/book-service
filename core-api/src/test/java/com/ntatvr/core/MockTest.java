@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class MockTest {
+public abstract class MockTest {
 
   @Mock
   protected Validator validator;

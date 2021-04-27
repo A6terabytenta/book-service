@@ -55,6 +55,7 @@ public class AuthorServiceImpl implements AuthorService {
   public AuthorEntity save(final AuthorEntity entity) {
     log.debug("[Save Author]: {}", entity);
     validate(entity);
+
     if (StringUtils.isNotBlank(entity.getId())) {
       bookService.updateByAuthor(entity);
     }
