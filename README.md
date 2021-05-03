@@ -10,6 +10,7 @@
 4. Code quality assurance with PMD
 5. Libraries: Lombok ``1.18.12``, mapstruct ``1.4.1``, swagger ``1.6.0``
 6. Validate: javax.validation ``2.0.1``
+7. Setup test coverage with Jacoco
 
 ## Business Rules
 1. Implement CRUD API.
